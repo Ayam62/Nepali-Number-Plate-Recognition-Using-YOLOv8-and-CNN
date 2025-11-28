@@ -3,7 +3,7 @@
 from ultralytics import YOLO
 import cv2
 import numpy as np
-from utils import pre_process_img
+from utils import pre_process_img, sort_boxes_spatially
 import tensorflow as tf
 from model_prediction import predict_output
 import os
@@ -34,18 +34,31 @@ for filename in os.listdir(IMAGE_DIR):
     img_path = os.path.join(IMAGE_DIR, filename)
     license_plate_labels=license_plate_detection(img_path)
     number_plate_list=[]
-    
-    
     img=cv2.imread(img_path)
-    for i in range(5):
-        x1,y1,x2,y2=license_plate_labels [0][i].boxes.xyxy.tolist()[0] # bounding box
+    
+    all_boxes = license_plate_labels[0].boxes 
+    sorted_boxes = sort_boxes_spatially(all_boxes)
+    
+
+    
+    
+    
+    for box in sorted_boxes:
+        x1, y1, x2, y2 = box # bounding box
         number_roi=img[int(y1):int(y2),int(x1):int(x2)]
         if number_roi is None or number_roi.size == 0 or number_roi.shape[0] == 0 or number_roi.shape[1] == 0:
+            
             print("⚠️ Warning: Skipping invalid or empty character ROI due to bad coordinates.")
             continue # Skip the rest of the loop for this bad character/ROI
         binary_img_otsu=pre_process_img(number_roi)
         
         character=predict_output(binary_img_otsu)
+        # cv2.imshow("Img",binary_img_otsu)
+        # cv2.waitKey(0)
+        
+        
+        
+        
         number_plate_list.append(character)
     print(number_plate_list)
     print("\n")

@@ -8,3 +8,4 @@ character_ocr
 .git
 models
 __pycache__
+test_img.png
