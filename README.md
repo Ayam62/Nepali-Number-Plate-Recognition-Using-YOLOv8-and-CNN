@@ -1,7 +1,7 @@
 # Nepali License Plate Detection & Recognition
 
 This project is an end-to-end system for detecting Nepali license plates from vehicle images and recognizing the characters (OCR) on them. It utilizes **YOLOv8** for object detection (locating the plate and characters) and a custom **CNN (Convolutional Neural Network)** for recognizing specific Nepali characters.
-##Output
+## Output
 <img width="770" height="111" alt="Screenshot 2025-11-28 at 8 37 48 AM" src="https://github.com/user-attachments/assets/57af77d5-bedc-4e89-b9a7-9e24c6f3fa5a" />
 
 
